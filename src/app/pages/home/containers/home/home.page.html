@@ -1,0 +1,39 @@
+<div class="container-fluid">
+
+  <div class="search-container">
+
+    <div class="form-group">
+      <label><strong>Pesquisar</strong></label>
+
+      <div>
+        <input class="form-control" [formControl]="searchControl">
+        <button class="btn btn-dark"
+                [disabled]="!searchControl.valid"
+                (click)="doSearch()"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg></button>
+
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label><strong>Pesquisar com <i>autocomplete</i></strong></label>
+      <jv-cities-typeahead [formControl]="searchControlWithAutocomplete"></jv-cities-typeahead>
+    </div>
+
+  </div>
+
+  <jv-loader *ngIf="loading$ | async"></jv-loader>
+
+  <div *ngIf="!(loading$ | async) && !(error$ | async) && !!cityWeather">
+    <jv-current-weather [cityWeather]="cityWeather"
+                        [isFavorite]="isCurrentFavorite$ | async"
+                        [unit]="unit$ | async"
+                        (toggleBookmark)="onToggleBookmark()"></jv-current-weather>
+  </div>
+
+  <div *ngIf="!(loading$ | async) && error$ | async">
+    <a>Tentar novamente</a>
+  </div>
+
+</div>
